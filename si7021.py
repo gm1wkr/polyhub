@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Test for si7021 Temp /RH sensor I2C"""
 
+import json
 import os
 import smbus
 import time
@@ -57,14 +58,17 @@ def getTempRh():
 
     return out
 
+
 def lcd_write(data):
     line1 = "{:-^20}".format("AIR SENSOR")
     line2 = "{:_^20}".format("Si7021")
     line3 = "Temp    : {:0.2f}C".format(data['cTemp'])
     line4 = "Humidity: {:0.2f}%".format(data['humidity'])
 
-    lcd.writeLcdScreen("{}\n\r{}\n\r{}\n\r{}".format(line1, line2, line3, line4))
+    lcd.writeLcdScreen("{}\n\r{}\n\r{}\n\r{}".format(
+        line1, line2, line3, line4))
     return True
+
 
 def sendMQTT(data):
     temp = "{:0.1f}c".format(data['cTemp'])
@@ -78,11 +82,28 @@ def sendMQTT(data):
     return True
 
 
+def send_to_pinet(data):
+    temp = "{:0.1f}".format(data['cTemp'])
+    rh = "{:0.1f}".format(data['humidity'])
+
+    d = {}
+    d['humidity'] = float(rh)
+    d['temperature'] = float(temp)
+
+    j = {}
+    j['machine'] = thisPi
+    j['type'] = "sensor"
+    j['sensor_name'] = "ph-air"
+    j['data'] = d
+    piNetMQTT.mqttSendMsg(client, json.dumps(j), "/piNet/polyhub", 1)
+
+    return True
 
 
 if __name__ == '__main__':
     data = getTempRh()
     lcd_write(data)
     sendMQTT(data)
+    send_to_pinet(data)
     print("{:0.2f}".format(data['cTemp']))
     print("{:0.2f}".format(data['humidity']))

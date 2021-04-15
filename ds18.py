@@ -1,6 +1,7 @@
 #!/usr/bin/python
 __author__ = 'Michael Langley'
 
+import json
 import os
 import piNetMQTT
 import polyhubLCD as lcd
@@ -69,7 +70,24 @@ def sendTemps():
 
 		piNetMQTT.mqttSendMsg(client, msg, topic, 1)
 
+def sendTempJson():
+	temps = readAllTemp()
+
+	for probe, temp in temps.iteritems():
+		d = {}
+		d['temperature'] = "{:0.1f}".format(temp)
+		j ={}
+		j['machine'] = thisPi
+		j['type'] = "sensor"
+		j['sensor_name'] = probe
+		j['data'] = d
+
+		piNetMQTT.mqttSendMsg(client, json.dumps(j), "/piNet/polyhub", 1)
+
+
+
 
 lcd_write(format_lcd())
 #getTempFrom('water')
-sendTemps()
+# sendTemps()
+sendTempJson()

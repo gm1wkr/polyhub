@@ -3,6 +3,7 @@
 """relay.py: Relay control for Polyhub0 of PiNet Primary adjunct."""
 
 __author__ = 'Michael Langley'
+import json
 import os
 import subprocess
 import piNetMQTT
@@ -48,7 +49,7 @@ def setupRelayGPIO():
 def button_callback(channel):
 	turnOnForSeconds('port1', 6)
 
-GPIO.setup(9, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Set GPIO 9 to be an input pin and set initial value to be pulled low (off)
+GPIO.setup(9, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 GPIO.add_event_detect(9,GPIO.BOTH,callback=button_callback, bouncetime=400)
 
 def initRelays():
