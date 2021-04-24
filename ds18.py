@@ -17,7 +17,7 @@ sid = {}
 sid['blue']  = '8000001fa78c'
 sid['red']   = '04168440afff'
 sid['green'] = '0516852dc9ff'
-sid['water']   = '0416844073ff'
+sid['lillies']   = '0416844073ff'
 sid['int']   = '051684ba67ff'
 
 def lcd_write(msg):
