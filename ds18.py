@@ -13,6 +13,7 @@ thisPi = os.uname()[1]
 clientID = "ds18b20-{}".format(thisPi)
 client = piNetMQTT.mqtt_connect(clientID)
 
+# Hardware addresses
 sid = {}
 sid['blue']  = '8000001fa78c'
 sid['red']   = '04168440afff'
