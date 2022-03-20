@@ -44,7 +44,9 @@ def getData():
     out = {}
     for sensor in W1ThermSensor.get_available_sensors():
         # print("Sensor {} has temperature {:.2f}".format(reverseSid[sensor.id], sensor.get_temperature()))
-        out[reverseSid[sensor.id]] = "{:0.2f}".format(sensor.get_temperature())
+        tempC = sensor.get_temperature()
+        out[reverseSid[sensor.id]] = "{0:.2f}".format(tempC)
+        # out[reverseSid[sensor.id]] = f"{tempC:.2f}"
 
     return out
 
@@ -54,4 +56,4 @@ def getData():
 
 
 if __name__ == "__main__":
-    getData() 
+    print(getData()) 
