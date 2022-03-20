@@ -28,7 +28,7 @@ mqtt_announce = "/piNet/polyhub"
 thisPi = os.uname()[1]
 clientID = "relay-{}".format(thisPi)
 
-mqtt_topic = "/piNet/{}/relay".format(thisPi)
+mqtt_topic = "/piNet/{}/".format(thisPi)
 
 
 def parseTopic(topic):
@@ -80,7 +80,7 @@ def main(client):
     #     lcd_write("piNet Client ID: ", "{}".format(clientID))
     #     mqttSend("Sensors STARTED")
         last_cpu = 0
-        interval_cpu = 60
+        interval_cpu = 30
         last_ds18 = 0
         interval_ds18 = 20
         last_si7021 = 0
