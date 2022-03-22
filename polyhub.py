@@ -103,20 +103,26 @@ def main(client):
                 mqttSend(json.dumps(j))
 
             if now >= (last_ds18 + interval_ds18):
-
                 last_ds18 = now
                 j['type'] = "sensor"
-                j['sensor_name'] = "ph-probes"
-                j['data'] = ds18.sendJson()
-                mqttSend(json.dumps(j))
+                data = ds18.sendJson()
+
+                for sensor, value in data.items():
+                    j['sensor_name'] = "ph-probes-{}".format(sensor)
+                    j['data'] = {'temperature': value}
+                    mqttSend(json.dumps(j))
 
             if now >= (last_si7021 + interval_si7021):
 
                 last_si7021 = now
                 j['type'] = "sensor"
-                j['sensor_name'] = "ph-air"
-                j['data'] = si7021.getTempRh()
-                mqttSend(json.dumps(j))
+                data = si7021.getTempRh()
+
+                for sensor, value in data.items():
+                    j['sensor_name'] = "ph-{}".format(sensor)
+                    j['data'] = {sensor: value}
+                    mqttSend(json.dumps(j))
+
 
 
             j.clear()
