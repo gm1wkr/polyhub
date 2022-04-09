@@ -43,7 +43,7 @@ def getTempRh():
     cTemp = ((data0 * 256 + data1) * 175.72 / 65536.0) - 46.85
 
     out = {}
-    out['air-temprerature'] = "{:0.2f}".format(cTemp)
+    out['air-temperature'] = "{:0.2f}".format(cTemp)
     out['humidity'] = "{:0.2f}".format(humidity)
 
     return out
